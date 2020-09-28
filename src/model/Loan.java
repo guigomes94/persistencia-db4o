@@ -2,9 +2,11 @@ package model;
 
 import java.time.LocalDate;
 
+import gui.utils.Utils;
+
 public class Loan {
 	
-	private String id;
+	private String id = Utils.randomUUID();
 	private LocalDate loanDate;
 	private User user;
 	private Book book;
@@ -15,13 +17,11 @@ public class Loan {
 		
 	}
 
-	public Loan(String id, LocalDate loanDate, User user, Book book, LocalDate devolutionDate, Double loanValue) {
-		this.id = id;
+	public Loan(LocalDate loanDate, User user, Book book, LocalDate devolutionDate) {
 		this.loanDate = loanDate;
 		this.user = user;
 		this.book = book;
 		this.devolutionDate = devolutionDate;
-		this.loanValue = loanValue;
 	}
 
 	public String getId() {
@@ -47,6 +47,10 @@ public class Loan {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public String getUserName() {
+		return user.getName();
+	}
 
 	public Book getBook() {
 		return book;
@@ -54,6 +58,10 @@ public class Loan {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	public String getBookTitle() {
+		return book.getTitle();
 	}
 
 	public LocalDate getDevolutionDate() {

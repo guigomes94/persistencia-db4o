@@ -30,39 +30,25 @@ public abstract class DAO<T> implements DAOInterface<T> {
 		// new File("banco.db4o").delete(); //apagar o banco
 		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 		config.common().messageLevel(0); // 0,1,2,3...
-		config.common().objectClass(User.class).cascadeOnDelete(true);
 		config.common().objectClass(User.class).cascadeOnUpdate(true);
 		config.common().objectClass(User.class).cascadeOnActivate(true);
 		
-		config.common().objectClass(Author.class).cascadeOnDelete(true);
 		config.common().objectClass(Author.class).cascadeOnUpdate(true);
 		config.common().objectClass(Author.class).cascadeOnActivate(true);
 		
-		config.common().objectClass(Genre.class).cascadeOnDelete(true);
 		config.common().objectClass(Genre.class).cascadeOnUpdate(true);
 		config.common().objectClass(Genre.class).cascadeOnActivate(true);
 		
-		config.common().objectClass(Book.class).cascadeOnDelete(true);
-		config.common().objectClass(Book.class).cascadeOnUpdate(true);
 		config.common().objectClass(Book.class).cascadeOnActivate(true);
 		
-		config.common().objectClass(Reservation.class).cascadeOnDelete(true);
-		config.common().objectClass(Reservation.class).cascadeOnUpdate(true);
 		config.common().objectClass(Reservation.class).cascadeOnActivate(true);
 		
-		config.common().objectClass(Loan.class).cascadeOnDelete(true);
-		config.common().objectClass(Loan.class).cascadeOnUpdate(true);
 		config.common().objectClass(Loan.class).cascadeOnActivate(true);
-		/*
-		 * config.common().objectClass(Autor.class).cascadeOnDelete(true); ;
-		 * config.common().objectClass(Autor.class).cascadeOnUpdate(true); ;
-		 * config.common().objectClass(Autor.class).cascadeOnActivate(true);
-		 */
+		
 		// indexacao de atributos
-		/*
-		 * config.common().objectClass(User.class).objectField("titulo").indexed(true);
-		 * config.common().objectClass(Autor.class).objectField("nome").indexed(true);
-		 */
+		
+		config.common().objectClass(User.class).objectField("nome").indexed(true);
+		config.common().objectClass(Book.class).objectField("title").indexed(true);
 
 		manager = Db4oEmbedded.openFile(config, "banco.db4o");
 	}

@@ -27,16 +27,10 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemNextDevolutions;
 
 	@FXML
-	private MenuItem menuItemNewLoan;
+	private MenuItem menuItemLoans;
 
 	@FXML
-	private MenuItem menuItemNewReservation;
-
-	@FXML
-	private MenuItem menuItemNewDevolution;
-
-	@FXML
-	private MenuItem menuItemCancelReservation;
+	private MenuItem menuItemReservations;
 
 	@FXML
 	private MenuItem menuItemUser;
@@ -57,7 +51,7 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemBooksByGenre;
 
 	@FXML
-	private MenuItem menuItemBooksByName;
+	private MenuItem menuItemBooksByTitle;
 
 	@FXML
 	private MenuItem menuItemUsersByName;
@@ -85,60 +79,65 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemLastLoansAction() {
-		System.out.println("LastLoans");
+		loadView("/gui/LastLoansList.fxml", (LastLoansListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemLastReservationsAction() {
-		System.out.println("LastReservations");
+		loadView("/gui/LastReservationsList.fxml", (LastReservationsListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemNextDevolutionsAction() {
-		System.out.println("LastDevolutions");
+		loadView("/gui/NextDevolutionsList.fxml", (NextDevolutionsListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
-	public void onMenuItemNewLoanAction() {
-		System.out.println("NewLoan");
+	public void onMenuItemLoanAction() {
+		loadView("/gui/LoanList.fxml", (LoanListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
-	public void onMenuItemNewReservationAction() {
-		System.out.println("Reservation");
-	}
-
-	@FXML
-	public void onMenuItemNewDevolutionAction() {
-		System.out.println("NewDevolution");
-	}
-
-	@FXML
-	public void onMenuItemCancelReservationAction() {
-		System.out.println("CancelReservation");
+	public void onMenuItemReservationAction() {
+		loadView("/gui/ReservationList.fxml", (ReservationListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemUserAction() {
 		loadView("/gui/UserList.fxml", (UserListController controller) -> {
-			//controller.setSellerService(new SellerService());
 			controller.updateTableView();
 		});
 	}
 
 	@FXML
 	public void onMenuItemAuthorAction() {
-		System.out.println("Author");
+		loadView("/gui/AuthorList.fxml", (AuthorListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemGenreAction() {
-		System.out.println("Genre");
+		loadView("/gui/GenreList.fxml", (GenreListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemBookAction() {
-		System.out.println("Book");
+		loadView("/gui/BookList.fxml", (BookListController controller) -> {
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
@@ -152,8 +151,8 @@ public class MainViewController implements Initializable {
 	}
 
 	@FXML
-	public void onMenuItemBookByNameAction() {
-		System.out.println("BookByName");
+	public void onMenuItemBookByTitleAction() {
+		System.out.println("BookByTitle");
 	}
 
 	@FXML

@@ -1,10 +1,13 @@
 package model;
 
+
 import java.time.LocalDate;
+
+import gui.utils.Utils;
 
 public class Reservation {
 	
-	private String id;
+	private String id = Utils.randomUUID();
 	private LocalDate reservationDate;
 	private User user;
 	private Book book;
@@ -13,8 +16,7 @@ public class Reservation {
 		
 	}
 	
-	public Reservation(String id, LocalDate reservationDate, User user, Book book) {
-		this.id = id;
+	public Reservation(LocalDate reservationDate, User user, Book book) {
 		this.reservationDate = reservationDate;
 		this.user = user;
 		this.book = book;
@@ -43,6 +45,10 @@ public class Reservation {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public String getUserName() {
+		return user.getName();
+	}
 
 	public Book getBook() {
 		return book;
@@ -50,6 +56,10 @@ public class Reservation {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	public String getBookTitle() {
+		return book.getTitle();
 	}
 
 	@Override

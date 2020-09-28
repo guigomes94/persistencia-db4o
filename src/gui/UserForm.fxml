@@ -31,7 +31,7 @@
             <Label text="NAME" GridPane.rowIndex="1" />
             <Label text="EMAIL" GridPane.rowIndex="2" />
             <Label text="PHONE" GridPane.rowIndex="3" />
-            <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtName" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <HBox prefHeight="38.0" prefWidth="216.0" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">

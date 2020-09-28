@@ -12,12 +12,11 @@ public class Book {
 		
 	}
 	
-	public Book(String title, Integer pages, Genre genre, Author author, Boolean available) {
+	public Book(String title, Integer pages, Genre genre, Author author) {
 		this.title = title;
 		this.pages = pages;
 		this.genre = genre;
 		this.author = author;
-		this.available = available;
 	}
 
 
@@ -47,6 +46,14 @@ public class Book {
 
 	public Author getAuthor() {
 		return author;
+	}
+	
+	public String getAuthorName() {
+		return author.getName();
+	}
+	
+	public String getGenreName() {
+		return genre.getName();
 	}
 
 	public void setAuthor(Author author) {
@@ -88,7 +95,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", pages=" + pages + ", genrer=" + genre.getName() + ", author=" + author.getName() + "]";
+		return "Book [title=" + title + ", pages=" + pages + ", genrer=" + genre.getName() + ", author=" + author.getName() + ", available=" + available + "]";
 	}
 		
 }

@@ -10,6 +10,7 @@ import dao.DAOGenre;
 import dao.DAOLoan;
 import dao.DAOReservation;
 import dao.DAOUser;
+import gui.utils.Utils;
 import model.Author;
 import model.Book;
 import model.Genre;
@@ -43,6 +44,7 @@ public class Facade {
 		Author result = daoAuthor.read(name);
 		if (result != null) {
 			result.setName(name);
+			daoAuthor.update(result);
 			DAO.commit();
 			return result;
 
@@ -60,10 +62,10 @@ public class Facade {
 		Author result = daoAuthor.read(authorName);
 		if (result == null) {
 			DAO.rollback();
-			throw new Exception("Autor " + authorName + " inexistente!");
+			throw new Exception("Author " + authorName + " not exist!");
 		}
 
-		daoAuthor.delete(result); // cascata
+		daoAuthor.delete(result);
 		DAO.commit();
 	}
 
@@ -74,16 +76,19 @@ public class Facade {
 	
 	/*=====BOOK=====*/
 	
-	public static Book saveOrUpdateBook(String title, Integer pages, Genre genre, Author author, Boolean available) throws Exception {
+	public static Book saveOrUpdateBook(String title, Integer pages, Genre genre, Author author) throws Exception {
 		DAO.begin();
 		Book result = daoBook.read(title);
 		if (result != null) {
-			result.setTitle(title);
+			result.setPages(pages);
+			result.setGenre(genre);
+			result.setAuthor(author);
+			daoBook.update(result);
 			DAO.commit();
 			return result;
 
 		} else {
-			Book book = new Book(title, pages, genre, author, available);
+			Book book = new Book(title, pages, genre, author);
 			daoBook.create(book);
 			DAO.commit();
 			return book;
@@ -95,15 +100,35 @@ public class Facade {
 		Book result = daoBook.read(bookTitle);
 		if (result == null) {
 			DAO.rollback();
-			throw new Exception("Book " + bookTitle + " inexistente!");
+			throw new Exception("Book " + bookTitle + " not exist!");
 		}
 
-		daoBook.delete(result); // cascata
+		daoBook.delete(result);
 		DAO.commit();
 	}
 
-	public static List<Book> listBook() {
+	public static List<Book> listBooks() {
 		List<Book> list = daoBook.readAll();
+		return list;
+	}
+	
+	public static List<Book> listBooksAvailable() {
+		List<Book> list = daoBook.readBooksAvailable();
+		return list;
+	}
+	
+	public static List<Book> searchBooksByTitle(String caracteres) {
+		List<Book> list = daoBook.readBooksByTitle(caracteres);
+		return list;
+	}
+	
+	public static List<Book> searchBooksByAuthor(String caracteres) {
+		List<Book> list = daoBook.readBooksByAuthor(caracteres);
+		return list;
+	}
+	
+	public static List<Book> searchBooksByGenre(String caracteres) {
+		List<Book> list = daoBook.readBooksByGenre(caracteres);
 		return list;
 	}
 		
@@ -115,6 +140,7 @@ public class Facade {
 		Genre result = daoGenre.read(name);
 		if (result != null) {
 			result.setName(name);
+			daoGenre.update(result);
 			DAO.commit();
 			return result;
 
@@ -131,30 +157,38 @@ public class Facade {
 		Genre result = daoGenre.read(genreName);
 		if (result == null) {
 			DAO.rollback();
-			throw new Exception("Genre " + genreName + " inexistente!");
+			throw new Exception("Genre " + genreName + " not exist!");
 		}
 
-		daoGenre.delete(result); // cascata
+		daoGenre.delete(result);
 		DAO.commit();
 	}
 
-	public static List<Genre> listGenre() {
+	public static List<Genre> listGenres() {
 		List<Genre> list = daoGenre.readAll();
 		return list;
 	}
 	
 	/*=====LOAN=====*/
 	
-	public static Loan saveOrUpdateLoan(String id, LocalDate loanDate, User user, Book book, LocalDate devolutionDate, Double loanValue) throws Exception {
+	public static Loan saveOrUpdateLoan(String id, LocalDate loanDate, User user, Book book, LocalDate devolutionDate) throws Exception {
 		DAO.begin();
 		Loan result = daoLoan.read(id);
+		Book findBook = daoBook.read(book.getTitle());
 		if (result != null) {
+			result.setDevolutionDate(devolutionDate);
+			result.setLoanValue(Utils.calcValue(loanDate, devolutionDate));
+			findBook.setAvailable(true);
+			daoBook.update(findBook);
 			daoLoan.update(result);
 			DAO.commit();
 			return result;
 
 		} else {
-			Loan loan = new Loan(id, loanDate, user, book, devolutionDate, loanValue);
+			Loan loan = new Loan(loanDate, user, book, devolutionDate);
+			loan.setLoanValue(Utils.calcValue(loanDate, devolutionDate));
+			findBook.setAvailable(false);
+			daoBook.update(findBook);
 			daoLoan.create(loan);
 			DAO.commit();
 			return loan;
@@ -162,34 +196,72 @@ public class Facade {
 		
 	}
 
-	public static List<Loan> listLoan() {
+	public static List<Loan> listLoans() {
 		List<Loan> list = daoLoan.readAll();
 		return list;
 	}
-
 	
+	public static List<Loan> listLastLoans() {
+		List<Loan> list = daoLoan.readLastLoans();
+		return list;
+	}
+	
+	public static List<Loan> listNextDevolutions() {
+		List<Loan> list = daoLoan.readNextDevolutions();
+		return list;
+	}
+	
+	public static List<Loan> searchLoanById(String id) {
+		List<Loan> list = daoLoan.readLoansById(id);
+		return list;
+	}
 	
 	/*=====RESERVATION=====*/
 	
-	public static Reservation saveOrUpdateReservation(String id, LocalDate loanDate, User user, Book book) throws Exception {
+	public static Reservation saveOrUpdateReservation(String id, LocalDate reservationDate, User user, Book book) throws Exception {
 		DAO.begin();
 		Reservation result = daoReservation.read(id);
 		if (result != null) {
+			result.setReservationDate(reservationDate);
+			result.setUser(user);
+			result.setBook(book);
 			daoReservation.update(result);
 			DAO.commit();
 			return result;
 
 		} else {
-			Reservation res = new Reservation(id, loanDate, user, book);
+			Reservation res = new Reservation(reservationDate, user, book);
 			daoReservation.create(res);
 			DAO.commit();
 			return res;
 		}
 		
 	}
+	
+	public static void removeReservation(String id) throws Exception {
+		DAO.begin();
+		Reservation result = daoReservation.read(id);
+		if (result == null) {
+			DAO.rollback();
+			throw new Exception("ID NOT FOUND!");
+		}
 
-	public static List<Reservation> listReservation() {
+		daoReservation.delete(result);
+		DAO.commit();
+	}
+
+	public static List<Reservation> listReservations() {
 		List<Reservation> list = daoReservation.readAll();
+		return list;
+	}
+	
+	public static List<Reservation> listLastReservations() {
+		List<Reservation> list = daoReservation.readLastReservations();
+		return list;
+	}
+	
+	public static List<Reservation> searchReservationById(String id) {
+		List<Reservation> list = daoReservation.readReservationsById(id);
 		return list;
 	}
 	
@@ -219,15 +291,25 @@ public class Facade {
 		User result = daoUser.read(userName);
 		if (result == null) {
 			DAO.rollback();
-			throw new Exception("Usuário " + userName + " inexistente!");
+			throw new Exception("User " + userName + " not exist!");
 		}
 
-		daoUser.delete(result); // cascata
+		daoUser.delete(result);
 		DAO.commit();
 	}
 
 	public static List<User> listUsers() {
 		List<User> list = daoUser.readAll();
+		return list;
+	}
+	
+	public static List<User> searchUsersByName(String name) {
+		List<User> list = daoUser.readUsersByName(name);
+		return list;
+	}
+	
+	public static List<User> searchUsersByEmail(String email) {
+		List<User> list = daoUser.readUsersByEmail(email);
 		return list;
 	}
 }

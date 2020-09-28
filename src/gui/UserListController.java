@@ -109,7 +109,6 @@ public class UserListController implements Initializable, DataChangeListener {
 			modalStage.showAndWait();
 
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
 			Alerts.showAlert("IO Exception", null, e.getMessage(), AlertType.ERROR);
 		}
 

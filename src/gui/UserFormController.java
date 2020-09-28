@@ -78,6 +78,7 @@ public class UserFormController implements Initializable {
 
 	@FXML
 	public void onBtnCancelAction(ActionEvent event) {
+		Facade.finalizar();
 		Utils.currentStage(event).close();
 	}
 

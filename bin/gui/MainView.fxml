@@ -24,10 +24,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Services">
                     <items>
-                      <MenuItem fx:id="menuItemNewLoan" mnemonicParsing="false" onAction="#onMenuItemNewLoanAction" text="New Loan" />
-                        <MenuItem fx:id="menuItemNewReservation" mnemonicParsing="false" onAction="#onMenuItemNewReservationAction" text="New Reservation" />
-                        <MenuItem fx:id="menuItemNewDevolution" mnemonicParsing="false" onAction="#onMenuItemNewDevolutionAction" text="New Devolution" />
-                        <MenuItem fx:id="menuItemCancelReservation" mnemonicParsing="false" onAction="#onMenuItemCancelReservationAction" text="Cancel Reservation" />
+                      <MenuItem fx:id="menuItemLoans" mnemonicParsing="false" onAction="#onMenuItemLoanAction" text="Loans" />
+                        <MenuItem fx:id="menuItemReservations" mnemonicParsing="false" onAction="#onMenuItemReservationAction" text="Reservations" />
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Registration">
@@ -42,7 +40,7 @@
                      <items>
                         <MenuItem fx:id="menuItemBooksByAuthor" mnemonicParsing="false" onAction="#onMenuItemBookByAuthorAction" text="Books By Author" />
                         <MenuItem fx:id="menuItemBooksByGenre" mnemonicParsing="false" onAction="#onMenuItemBookByGenreAction" text="Books By Genre" />
-                        <MenuItem fx:id="menuItemBooksByName" mnemonicParsing="false" onAction="#onMenuItemBookByNameAction" text="Books By Name" />
+                        <MenuItem fx:id="menuItemBooksByName" mnemonicParsing="false" onAction="#onMenuItemBookByTitleAction" text="Books By Title" />
                         <MenuItem fx:id="menuItemUsersByName" mnemonicParsing="false" onAction="#onMenuItemUserByNameAction" text="Users By Name" />
                         <MenuItem fx:id="menuItemUsersByEmail" mnemonicParsing="false" onAction="#onMenuItemUserByEmailAction" text="Users By Email" />
                         <MenuItem fx:id="menuItemUsersById" mnemonicParsing="false" onAction="#onMenuItemUserByIdAction" text="Users By Id" />

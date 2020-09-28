@@ -1,9 +1,8 @@
 package gui.utils;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -42,18 +41,18 @@ public class Utils {
 		}
 	}
 
-	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
+	public static <T> void formatTableColumnDate(TableColumn<T, LocalDate> tableColumn, String format) {
 		tableColumn.setCellFactory(column -> {
-			TableCell<T, Date> cell = new TableCell<T, Date>() {
-				private SimpleDateFormat sdf = new SimpleDateFormat(format);
+			TableCell<T, LocalDate> cell = new TableCell<T, LocalDate>() {
+				private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(format);
 
 				@Override
-				protected void updateItem(Date item, boolean empty) {
+				protected void updateItem(LocalDate item, boolean empty) {
 					super.updateItem(item, empty);
 					if (empty) {
 						setText(null);
 					} else {
-						setText(sdf.format(item));
+						setText(item.format(dateFormat));
 					}
 				}
 			};
@@ -104,5 +103,15 @@ public class Utils {
 				}
 			}
 		});
+	}
+
+	public static Double calcValue(LocalDate loanDate, LocalDate devolutionDate) {
+		if (devolutionDate != null) {
+			Double diary = 2.0;
+			Period loanDays = Period.between(loanDate, devolutionDate);
+			return loanDays.getDays() * diary;
+		}
+		
+		return 0.00;
 	}
 }
